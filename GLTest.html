@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <script src="p5/p5.min.js"></script>
+    <script>
+      var w = window.innerWidth;
+      var h = window.innerHeight;
+      var rtX = 0;
+      var rtY = 0;
+      var rtZ = 0;
+      var img;
+      function preload() {
+        img = loadImage('https://st.depositphotos.com/1011596/4797/i/950/depositphotos_47975051-stock-photo-coal-solid-texture-mining-ore.jpg');
+      }
+      
+      function setup() {
+        createCanvas(w, h, WEBGL);
+      }
+      
+      function draw() {
+        background(220);
+        var locX = mouseX - width / 2;
+        var locY = mouseY - height / 2;
+        pointLight(255, 255, 255, locX, locY, 175);
+        directionalLight(220, 220, 220, -locX, -locY, -175);
+        specularMaterial(255);
+        noStroke();
+        rotateY(55);
+        rotateX(frameCount * rtY);
+        rotateY(frameCount * rtX);
+        rotateZ(frameCount * rtZ);
+        texture(img);
+        translate(0, 0, 100);
+        torus(50, 30);
+        translate(0, 0, -200);
+        torus(50, 30);
+        translate(0, 0, 100);
+        rotateX(55);
+        cylinder(30, 200);
+        document.getElementById('dis').innerHTML = "rotateX: " + rtX.toFixed(2);
+        document.getElementById('lay').innerHTML = "rotateY: " + rtY.toFixed(2);
+        document.getElementById('bay').innerHTML = "rotateZ: " + rtZ.toFixed(2);
+      }
+      
+      function windowResized() {
+        w = window.innerWidth;
+        h = window.innerHeight;
+        resizeCanvas(w, h);
+      }
+      
+      function keyPressed() {
+        if (keyCode === 38) { //Up
+          rtY += 0.01;
+        }
+        if (keyCode === 40) { //Down
+          rtY -= 0.01;
+        }
+        if (keyCode === 37) { //Left
+          rtX -= 0.01;
+        }
+        if (keyCode === 39) { //Right
+          rtX += 0.01;
+        }
+        if (keyCode === 75) {
+          rtZ += 0.01;
+        }
+        if (keyCode === 76) {
+          rtZ -= 0.01;
+        }
+      }
+    </script>
+    <style>
+      canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="dis"></h1>
+    <h1 id="lay"></h1>
+    <h1 id="bay"></h1>
+  </body>
+</html>
